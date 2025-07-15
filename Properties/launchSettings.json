@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Quick-Sound-Output-Change-Windows-11 (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Quick-Sound-Output-Change-Windows-11 (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
