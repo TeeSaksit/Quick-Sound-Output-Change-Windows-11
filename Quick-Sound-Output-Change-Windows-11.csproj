@@ -1,59 +1,98 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
-    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-    <RootNamespace>Quick_Sound_Output_Change_Windows_11</RootNamespace>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Platforms>x86;x64;ARM64</Platforms>
-    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-    <PublishProfile>win-$(Platform).pubxml</PublishProfile>
-    <UseWinUI>true</UseWinUI>
-    <EnableMsixTooling>true</EnableMsixTooling>
-    <Nullable>enable</Nullable>
+	<OutputType>WinExe</OutputType>
+	<TargetFramework>net8.0-windows10.0.19041</TargetFramework>
+	<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+	<RootNamespace>Quick_Sound_Output_Change_Windows_11</RootNamespace>
+	<ApplicationManifest>app.manifest</ApplicationManifest>
+	<Platforms>x64</Platforms>
+	<RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+	<PublishProfile>win-$(Platform).pubxml</PublishProfile>
+	<UseWinUI>true</UseWinUI>
+	<EnableMsixTooling>true</EnableMsixTooling>
+	<Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Remove="Assets\AppLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+	<None Remove="Assets\HeadphoneIcon.ico" />
+  </ItemGroup>
+	
+  <ItemGroup>
+	<Content Include="Assets\SplashScreen.scale-200.png" />
+	<Content Include="Assets\LockScreenLogo.scale-200.png" />
+	<Content Include="Assets\Square150x150Logo.scale-200.png" />
+	<Content Include="Assets\Square44x44Logo.scale-200.png" />
+	<Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+	<Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Manifest Include="$(ApplicationManifest)" />
+	<Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
   <!--
-    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
-    Tools extension to be activated for this project even if the Windows App SDK Nuget
-    package has not yet been restored.
+	Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+	Tools extension to be activated for this project even if the Windows App SDK Nuget
+	package has not yet been restored.
   -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-    <ProjectCapability Include="Msix" />
+	<ProjectCapability Include="Msix" />
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4188" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250606001" />
+	<PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
+	<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4188" />
+	<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250606001" />
+	<PackageReference Include="System.Drawing.Common" Version="8.0.18" />
+	<PackageReference Include="WinUIEx" Version="2.6.0" />
+
+	  <!-- <PackageReference Include="System.Collections.Immutable" Version="9.0.0" />
+	<PackageReference Include="System.Reflection.Metadata" Version="9.0.0" />  -->
+  </ItemGroup>
+
+	<!--  <ItemGroup>
+	<Reference Include="System.Windows.Forms">
+	  <HintPath>..\..\..\..\..\Program Files\Microsoft Visual Studio\2022\Community\dotnet\net8.0\runtime\shared\Microsoft.WindowsDesktop.App\8.0.18\System.Windows.Forms.dll</HintPath>
+	</Reference>
+  </ItemGroup> -->
+	
+  <ItemGroup>
+	<Content Update="Assets\AudioDeviceIcon.ico">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+	<Content Update="Assets\HeadphoneIcon.ico">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+	<Content Update="Assets\VolumeIcon.ico">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
   </ItemGroup>
 
   <!--
-    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
-    Explorer "Package and Publish" context menu entry to be enabled for this project even if
-    the Windows App SDK Nuget package has not yet been restored.
+	Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
+	Explorer "Package and Publish" context menu entry to be enabled for this project even if
+	the Windows App SDK Nuget package has not yet been restored.
   -->
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-    <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
+	<HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
 
   <!-- Publish Properties -->
   <PropertyGroup>
-    <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
-    <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
-    <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
-    <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
+	<PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
+	<PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
+	<PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
+	<PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
+	<GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+	<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+	<PackageCertificateThumbprint>9A517FDFC21A76A7AFA1234BE538B21E64E2950A</PackageCertificateThumbprint>
+	<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+	<AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+	<AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+	<GenerateTestArtifacts>True</GenerateTestArtifacts>
+	<AppxBundle>Never</AppxBundle>
+	<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
 </Project>

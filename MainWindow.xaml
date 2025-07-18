@@ -1,19 +1,61 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Window
+<?xml version="1.0" encoding="utf-8" ?>
+<winex:WindowEx
     x:Class="Quick_Sound_Output_Change_Windows_11.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Quick_Sound_Output_Change_Windows_11"
+    xmlns:converters="using:Quick_Sound_Output_Change_Windows_11.Helpers"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Quick_Sound_Output_Change_Windows_11"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Title="Quick-Sound-Output-Change-Windows-11">
+    xmlns:winex="using:WinUIEx"
+    mc:Ignorable="d">
 
-    <Window.SystemBackdrop>
-        <MicaBackdrop />
-    </Window.SystemBackdrop>
+    <winex:WindowEx.SystemBackdrop>
+        <winex:TransparentTintBackdrop TintColor="#FA2B2B2B" />
+    </winex:WindowEx.SystemBackdrop>
 
-    <Grid>
+    <Grid x:Name="MyGrid" Margin="10,20">
+        <Grid.Resources>
+            <converters:ActiveColorConverter x:Key="ActiveColorConverter" />
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        </Grid.Resources>
 
+        <StackPanel Orientation="Vertical" Spacing="10">
+            <ItemsControl x:Name="MyItemsControl">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Height="40"
+                            Margin="0,0,0,5"
+                            Background="{Binding IsDefault, Converter={StaticResource ActiveColorConverter}}"
+                            CornerRadius="3"
+                            PointerEntered="Border_PointerEntered"
+                            PointerExited="Border_PointerExited"
+                            Tapped="Border_Tapped">
+
+                            <Grid>
+                                <Rectangle
+                                    Width="4"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Stretch"
+                                    Fill="DodgerBlue"
+                                    Visibility="{Binding IsDefault, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <StackPanel
+                                    Margin="14,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+                                    <Image
+                                        Width="18"
+                                        Height="18"
+                                        Margin="0,0,10,0"
+                                        Source="ms-appx:///Assets/HeadphoneIcon.ico" />
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
     </Grid>
-</Window>
+</winex:WindowEx>
